@@ -38,10 +38,12 @@ int main() {
     char input[50];
     printf("Enter word to be checked: ");
 
-    scanf("%s", input);
+     fgets(input, sizeof(input), stdin);
+      input[strcspn(input, "\n")] = '\0';
 
     if (isKeyword(input)) {
-        printf("\n%s is a keyword\n", input);
+    
+    printf("\n%s is a keyword\n", input);
     }
     else {
         if (isIdentifier(input)) {

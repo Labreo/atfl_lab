@@ -12,23 +12,33 @@ int get_symbol_index(char c, char alphabet[], int num_symbols) {
     return -1;}
 
 int main() {
-    int num_states, num_symbols;
+    int num_states, num_symbols,initial_state;
     
     printf("Enter number of states: ");
     scanf("%d", &num_states);
 
-    printf("Enter number of input symbols: ");
-    scanf("%d", &num_symbols);
+    printf("Enter the initial state:");
+    scanf("%d", &initial_state);
 
+    int num_transistion[num_states];
     char alphabet[MAX_SYMBOLS];
-    printf("Enter the alphabet symbols: ");
+    char a[100];
+    printf("Enter the alphabet symbols(Enter * to represent lambda): ");
     scanf("%s", alphabet);
 
-    int transition_table[MAX_STATES][MAX_SYMBOLS];
+
+    for (int i = 0; i < num_states; i++) {
+        printf("Enter what is the amount of transistions of for the given state q%d:\n",i);
+        scanf("%d",&num_transistion[i]);
+    }
+     
+     int transition_table[MAX_STATES][MAX_SYMBOLS];
     printf("Enter the transition table (use -1 to route to the trap state).\n");
     for (int i = 0; i < num_states; i++) {
-        for (int j = 0; j < num_symbols; j++) {
-            printf("State q%d on input '%c' goes to state q: ", i, alphabet[j]);
+        for (int j = 0; j < num_transistion[i]; j++) {
+            printf("Enter the No:%d input for q%d:",j+1,i);
+            scanf("%s",a);
+            printf("State q%d on input '%s' goes to state q: ", i, a);
             scanf("%d", &transition_table[i][j]);
         }
     }

@@ -66,7 +66,7 @@ void print_state_set(bool states[]) {
 }
 
 int main() {
-    printf("Kanak Waradkar 24B-0CO-030")
+    printf("Kanak Waradkar 24B-0CO-030");
     int initial_state;
     printf("Enter number of states: ");
     scanf("%d", &num_states);

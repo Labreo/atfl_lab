@@ -13,7 +13,19 @@
 		δ(q1, b, b) = (q1, ε)     
 		δ(q1, a, a) = (q1, ε)     
 
-		δ(q1, ε, Z) = (qf, Z)     */
+		δ(q1, ε, Z) = (qf, Z)  sHOW stack content after every iteration of the string 
+        Enter number of transitions: 11
+0 a Z 0 aZ
+0 a a 0 aa
+0 b Z 0 bZ
+0 b b 0 bb
+0 a b 0 ab
+0 b a 0 ba
+0 c a 1 a
+0 c b 1 b
+1 b b 1 e
+1 a a 1 e
+1 e Z f Z  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,12 +33,13 @@
 #define MAX_STACK 100
 #define MAX_TRANS 50
 #define MAX_ACTION 10
+#define MAX_STATE 10
 
 typedef struct {
-    char from_state[5];
+    char from_state[MAX_STATE];
     char input_sym;
     char stack_top;
-    char to_state[5];
+    char to_state[MAX_STATE];
     char action[MAX_ACTION];
 } Transition;
 
@@ -42,14 +55,20 @@ char pop() {
     return '\0';
 }
 
+void print_stack() {
+    printf(" Stack: ");
+    for (int i = 0; i <= top; i++) printf("%c", stack[i]);
+    printf("\n");
+}
+
 int main() {
-printf("Kanak Waradkar 24B-0CO-030");
+    printf("\nKanak Waradkar 24B-0CO-030");
     int n;
-    char current_state[5] = "0";
+    char current_state[MAX_STATE] = "0";
     char input_str[100];
     Transition delta[MAX_TRANS];
 
-    printf("\nEnter number of transitions: ");
+    printf("Enter number of transitions: ");
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
@@ -72,12 +91,12 @@ printf("Kanak Waradkar 24B-0CO-030");
                 strcpy(current_state, delta[j].to_state);
                 pop();
                 if (strcmp(delta[j].action, "e") != 0) {
-                    for (int k = strlen(delta[j].action) - 1; k >= 0; k--) {
-                        push(delta[j].action[k]);
-                    }
+                    for (int k = strlen(delta[j].action) - 1; k >= 0; k--) push(delta[j].action[k]);
                 }
                 if (current_char != 'e') i++;
                 found = 1;
+                printf("Step %d: char '%c' -> State %s", i, current_char, current_state);
+                print_stack();
                 break;
             }
         }
@@ -88,22 +107,21 @@ printf("Kanak Waradkar 24B-0CO-030");
                     strcpy(current_state, delta[j].to_state);
                     pop();
                     if (strcmp(delta[j].action, "e") != 0) {
-                        for (int k = strlen(delta[j].action) - 1; k >= 0; k--) {
-                            push(delta[j].action[k]);
-                        }
+                        for (int k = strlen(delta[j].action) - 1; k >= 0; k--) push(delta[j].action[k]);
                     }
                     found = 1;
+                    printf("Step (ε): State %s", current_state);
+                    print_stack();
                     break;
                 }
             }
         }
         
-        if (!found) break;
-        if (strcmp(current_state, "f") == 0 && i >= len) break;
+        if (!found || (strcmp(current_state, "f") == 0 && i >= len)) break;
     }
 
-    if (strcmp(current_state, "f") == 0) printf("Accepted\n");
-    else printf("Rejected\n");
+    if (strcmp(current_state, "f") == 0) printf("\nAccepted\n");
+    else printf("\nRejected\n");
 
     return 0;
 }

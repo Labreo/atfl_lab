@@ -61,6 +61,19 @@ void print_stack() {
     printf("\n");
 }
 
+void print_id(const char* state, const char* str, int index) {
+    printf("ID: (%s, ", state);
+    if (index >= strlen(str)) {
+        printf("e, ");
+    } else {
+        printf("%s, ", str + index);
+    }
+    for (int i = top; i >= 0; i--) {
+        printf("%c", stack[i]);
+    }
+    printf(")\n");
+}
+
 int main() {
     printf("\nKanak Waradkar 24B-0CO-030");
     int n;
@@ -82,6 +95,9 @@ int main() {
     int i = 0;
     int len = strlen(input_str);
 
+    printf("\nInitial ID:\n");
+    print_id(current_state, input_str, i);
+
     while (1) {
         int found = 0;
         char current_char = (i < len) ? input_str[i] : 'e';
@@ -97,6 +113,7 @@ int main() {
                 found = 1;
                 printf("Step %d: char '%c' -> State %s", i, current_char, current_state);
                 print_stack();
+                print_id(current_state, input_str, i);
                 break;
             }
         }
@@ -112,6 +129,7 @@ int main() {
                     found = 1;
                     printf("Step (ε): State %s", current_state);
                     print_stack();
+                    print_id(current_state, input_str, i);
                     break;
                 }
             }
